@@ -17,7 +17,7 @@ function response(context){
     command:"HAND_SHAKE",
     path:pathUtils.push(context.message.path,IDUtils.getID(context));
   }
-  context.client.sendClient(JSON.stringify(res),clientInfo);
+  context.client.sendClient(res,clientInfo);
 }
 
 function success(context){
@@ -29,3 +29,29 @@ function success(context){
   context.dataBase.clientList.push(clientInfo);
   console.log("HAND_SHAKE:SUCCCESS");
 }
+
+function request(context,ip,port){
+  var req = {
+    type:"REQUEST",
+    status:"OK",
+    fromID:IDUtils.getID(context),
+    toID:"",
+    content:"",
+    command:"HAND_SHAKE",
+    path:JSON.stringify([IDUtils.getID(context)]),
+  }
+  var clientInfo = {
+    ID:"",
+    info:{
+      address:ip,
+      port:port,
+      family:"ipv4",
+      size:0,
+    }
+  }
+  context.client.sendClient(req,clientInfo);
+}
+
+module.exports.response = response;
+module.exports.success = success;
+module.exports.request = request;
