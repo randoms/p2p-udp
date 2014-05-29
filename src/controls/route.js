@@ -21,11 +21,17 @@
 
 var handShake = require("./handShake.js");
 var remoteInfo = require("./remoteInfo.js");
+var IDUtils = require("../utils/IDUtils.js");
+var pass = require("./passMessage.js");
 
 function route(context){
   var message = context.message;
-  
-  if(message.type = "REQUEST"){
+  if(message.toID != IDUtils.getID(context) && message.toID != ""){
+    //message not send to me
+    pass(context);
+    return;
+  }
+  if(message.type == "REQUEST"){
     if(message.command == "HAND_SHAKE"){
       handShake.response(context);
     }
@@ -42,3 +48,5 @@ function route(context){
     }
   }
 }
+
+module.exports = route;

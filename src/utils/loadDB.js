@@ -4,15 +4,16 @@ var path = __dirname+"/../models/db";
 
 function loadDB(callback){
   loadFiles(path,function(data){
+    var mDB = {};
     try{
-      JSON.parse(data);
+      mDB = JSON.parse(data);
     }catch(e){
       //dataBase error
       console.log("DataBase Error, Reset DataBase");
       data = {};
       saveDB(data);
     }
-    callback(data);
+    callback(mDB);
   })
 }
 

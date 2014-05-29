@@ -1,3 +1,6 @@
+var IDUtils = require("../utils/IDUtils.js");
+var pathUtils = require("../utils/spreadPath.js");
+
 function response(context){
     var count = context.dataBase.clientList.length;
     var info = null;
@@ -5,26 +8,26 @@ function response(context){
     // 在数据库中查找远程地址和端口
     for(i=0;i<count;i++){
       if(context.dataBase.clientList[i].id == remoteId){
-    info = context.dataBase.clientList[i];
+	info = context.dataBase.clientList[i];
       }
     }
     if(!info){
       var res = {
 	type:"RESPONSE",
-	status:
-	fromID:
-	toID:
-	content:
-	command:
-	path:
+	status:"OK",
+	fromID:IDUtils.getID(context),
+	toID:context.message.fromID,
+	content:info,
+	command:"GET_REMOTE_INFO",
+	path:pathUtils.push(context.message.path,IDUtils.getID(context)),
       }
     }else{
-      var cmd = {
-	status:"OK",
-	remoteInfo:info,
-      }
+      /**
+       * @todo send query request to other servers
+       */
+      console.log("not found");
     }
-    sendClient(JSON.stringify(cmd),clientInfo);
+    sendMessage(cmd,clientInfo);
 }
 
 

@@ -26,10 +26,10 @@ function middleware(message,rinfo,client,dataBase){
   }
   var context = {
     remoteInfo:{
-      id:req.formId,
+      id:message.formId,
       info:rinfo,
     },
-    message:JSON.parse,
+    message:data,
     client:client,
     dataBase:dataBase,
   }

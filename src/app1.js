@@ -1,12 +1,10 @@
-var port = 9999;
-var serverPort = require("./settings/config.js").SERVER_PORT;
-var serverIp = require("./settings/config.js").SERVER_IP;
+var port = 8888
+var serverIp = "127.0.0.1"
+var serverPort = 8888;
 var route = require("./controls/route.js");
 var middleware = require("./controls/middleware.js");
 var dataBaseCtrl = require("./utils/loadDB.js");
 var IDUtils = require("./utils/IDUtils.js");
-var raw_intput = require("./utils/raw_intput.js");
-var commandRoute = require("/utils/controls/route.js");
 
 var handShake = require("./controls/handShake.js");
 
@@ -23,10 +21,6 @@ dataBaseCtrl.loadDB(function(mDataBase){
     
   }
   startApp(context);
-  //process console commad
-  raw_intput("> ",function(cmd){
-    commandRoute(cmd);
-  },"");
 })
 
 function startApp(context){
@@ -57,7 +51,7 @@ function startApp(context){
   client.bind(port);
   // connect to server
   context.client = client;
-  handShake.request(context,serverIp,serverPort)
+  //handShake.request(context,serverIp,SERVER_PORT)
 }
 
 

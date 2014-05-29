@@ -9,15 +9,15 @@ function response(context){
   }
   context.dataBase.clientList.push(clientInfo);
   var res = {
-    type:"RESPONSE"
+    type:"RESPONSE",
     status:"OK",
-    fromID:IDUtils.getID(context);
+    fromID:IDUtils.getID(context),
     toID:clientInfo.ID,
     content:"",
     command:"HAND_SHAKE",
-    path:pathUtils.push(context.message.path,IDUtils.getID(context));
+    path:pathUtils.push(context.message.path,IDUtils.getID(context)),
   }
-  context.client.sendClient(res,clientInfo);
+  context.client.sendMessage(res,clientInfo);
 }
 
 function success(context){
@@ -49,7 +49,7 @@ function request(context,ip,port){
       size:0,
     }
   }
-  context.client.sendClient(req,clientInfo);
+  context.client.sendMessage(req,clientInfo);
 }
 
 module.exports.response = response;
