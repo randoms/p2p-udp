@@ -1,3 +1,4 @@
+var mConsole = require("../utils/mConsole.js");
 
 /**
  * @function
@@ -19,7 +20,10 @@ function pass(context){
    * @todo find shortcut
    */
   // check vaild
-  if(targetId == "")console.log("Bad package!!!");
+  if(targetId == ""){
+    mConsole.print("Bad package!!!");
+    return;
+  }
   // find target info in local dataBase
   var count =context.dataBase.clientList.length;
   var info = null;
@@ -33,7 +37,7 @@ function pass(context){
     context.client.sendMessage(context.message,info);
   }else{
     // record not found
-    console.log("Bad package!!!");
+    mConsole.print("Bad package!!!");
   }
 }
 

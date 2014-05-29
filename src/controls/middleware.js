@@ -1,4 +1,3 @@
-var mConsole = require("../utils/mConsole.js");
 
 /**
  * @function: bind all necessary data to a context
@@ -13,7 +12,7 @@ function middleware(message,rinfo,client,dataBase){
     data = {
       type:"SYSTEM",
       status:"ERROR",
-      fromId:"",
+      fromID:"",
       toId:"",
       command:"ERROR",
       content:{
@@ -22,11 +21,11 @@ function middleware(message,rinfo,client,dataBase){
 	message:message,
       }
     }
-    mConsole(data);
+    console.log(JSON.stringify(data));
   }
   var context = {
     remoteInfo:{
-      id:message.formId,
+      ID:data.fromID,
       info:rinfo,
     },
     message:data,

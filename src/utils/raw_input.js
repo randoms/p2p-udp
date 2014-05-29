@@ -8,7 +8,7 @@
 
 function raw_input(hint,callback,defaultVal,type){
   process.stdout.write("\n");
-  process.stdout.write(hint+":");
+  process.stdout.write(hint);
   
   process.stdin.setEncoding('utf8');
   process.stdin.on("data",function(val){
