@@ -59,6 +59,9 @@ function routeCmd(context,cmd){
     handShake.cmd(context,cmd);
   }else if(cmdList[0] == "remoteInfo"){
     remoteInfo.cmd(context,cmd);
+  }else if(cmdList[0] == "db"){
+    //list dataBase
+    mConsole.print(JSON.stringify(context.dataBase));
   }else{
     mConsole.print("command not found");
   }
