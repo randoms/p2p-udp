@@ -20,7 +20,7 @@ function del(context,ID){
     }
   }
   if(index){
-    callBackList.splice(index,i);
+    callBackList.splice(index,1);
   }
 }
 

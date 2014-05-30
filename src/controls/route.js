@@ -26,6 +26,7 @@ var pass = require("./passMessage.js");
 var setPort = require("./setPort.js");
 var mConsole = require("../utils/mConsole.js");
 var tunnel = require("./tunnel.js");
+var remote = require("./remoteCmd.js");
 
 function route(context){
   var message = context.message;
@@ -42,7 +43,7 @@ function route(context){
       remoteInfo.response(context);
     }
   }
-  if(message.type = "RESPONSE"){
+  if(message.type == "RESPONSE"){
     if(message.command == "HAND_SHAKE"){
       handShake.success(context);
     }
@@ -68,6 +69,8 @@ function routeCmd(context,cmd){
     tunnel.cmd(context,cmd);
   }else if(cmdList[0] == "quit"){
     process.exit();
+  }else if(cmdList[0] == "remote"){
+    remote.cmd(context,cmd);
   }else{
     mConsole.print("command not found");
   }

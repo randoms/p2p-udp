@@ -24,7 +24,16 @@ function response(context){
        * @todo send query request to other servers
        */
       mConsole.print("GET_REMOTE_INFO:NOT_FOUND");
-      return;
+      var res = {
+	type:"RESPONSE",
+	status:"NOT_FOUND",
+	fromID:IDUtils.getID(context),
+	toID:context.message.fromID,
+	content:"",
+	command:"GET_REMOTE_INFO",
+	path:pathUtils.push(context.message.path,IDUtils.getID(context)),
+	callBack:context.message.callBack,
+      }
     }
     var clientInfo = clientInfoM.find(context,context.message.fromID);
     context.client.sendMessage(res,clientInfo);
@@ -50,7 +59,7 @@ function request(context,ID,queryID,callBack){
   
   var clientInfo = clientInfoM.find(context,ID);
   if(clientInfo){
-    mConsole.print(JSON.stringify(clientInfo));
+    mConsole.print("GET_REMOTE_INFO:ASKING "+clientInfo.ID);
     context.client.sendMessage(req,clientInfo,callBack);
   }else{
     mConsole.print("GET_REMOTE_INFO:INVAILD_QUERY_TARGET");
@@ -67,6 +76,7 @@ function command(context,cmd){
     // check remote dataBase
     var clientList = context.dataBase.clientList;
     var count = clientList.length;
+    if(count == 0)mConsole("GET_REMOTE_INFO:NOT_FOUND");
     for(var i=0;i<count;i++){
       request(context,clientList[i]['ID'],ID);
     }

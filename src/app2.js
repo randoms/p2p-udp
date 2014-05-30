@@ -15,7 +15,7 @@ dataBaseCtrl.loadDB(function(mDataBase){
     dataBase:dataBase,
     
   }
-  startApp(context,9999,function(){
+  startApp(context,9998,function(){
     //process console commad
     raw_intput("> ",function(cmd){
       route.cmd(context,cmd);

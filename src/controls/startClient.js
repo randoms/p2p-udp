@@ -20,7 +20,7 @@ function startApp(initContext,port,callBack){
       //message processed by middleware
       var context = middleware(message,rinfo,client,initContext.dataBase);
       //check callBack
-      if(context.message.callBack){
+      if(context.message.callBack && context.message.type == "RESPONSE"){
 	var cb = callBackM.find(context,context.message.callBack);
 	cb(context);
 	//remove callBack

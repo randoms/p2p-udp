@@ -1,3 +1,5 @@
+var IDUtils = require("../utils/IDUtils.js");
+
 function find(context,ID){
   var clientList = context.dataBase.clientList;
   var count = clientList.length;
@@ -16,6 +18,9 @@ function del(context,ID){
 
 function add(context,info){
   // if ID already in clientList update info
+  if(info.ID == IDUtils.getID(context)){
+    return;
+  }
   var mInfo = find(context,info.ID);
   if(!mInfo){
     context.dataBase.clientList.push(info);
