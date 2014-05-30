@@ -20,11 +20,11 @@ function startApp(initContext,port,callBack){
       //message processed by middleware
       var context = middleware(message,rinfo,client,initContext.dataBase);
       //check callBack
-      if(message.callBack){
-	var cb = callBackM.find(message.callBack);
+      if(context.message.callBack){
+	var cb = callBackM.find(context,context.message.callBack);
 	cb(context);
 	//remove callBack
-	callBackM.del(message.callBack);
+	callBackM.del(context,context.message.callBack);
 	return;
       }
       route.net(context);
@@ -40,7 +40,6 @@ function startApp(initContext,port,callBack){
       var address = clientInfo.info.address;
       var port = clientInfo.info.port;
       if(mCB){
-	mConsole.print("ADD CALLBACK");
 	var context = {
 	  dataBase:initContext.dataBase,
 	};

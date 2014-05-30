@@ -1,10 +1,10 @@
-function add(context,callback){
+function add(context,callBack){
   var callBackList = context.dataBase.callBackList;
   //generate id
   var ID = Date.now()+ parseInt(Math.random()*10000);
   var info = {
     ID:ID,
-    callback:callback,
+    callBack:callBack,
   }
   callBackList.push(info);
   return ID;
@@ -29,7 +29,7 @@ function find(context,ID){
   var count = callBackList.length;
   for(var i = 0;i<count;i++){
     if(callBackList[i]['ID'] == ID){
-      return callBackList[i]['callback'];
+      return callBackList[i]['callBack'];
     }
   }
   return null;
