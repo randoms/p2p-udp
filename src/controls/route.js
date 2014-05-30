@@ -25,6 +25,7 @@ var IDUtils = require("../utils/IDUtils.js");
 var pass = require("./passMessage.js");
 var setPort = require("./setPort.js");
 var mConsole = require("../utils/mConsole.js");
+var tunnel = require("./tunnel.js");
 
 function route(context){
   var message = context.message;
@@ -63,6 +64,10 @@ function routeCmd(context,cmd){
   }else if(cmdList[0] == "db"){
     //list dataBase
     mConsole.print(JSON.stringify(context.dataBase));
+  }else if(cmdList[0] == "tunnel"){
+    tunnel.cmd(context,cmd);
+  }else if(cmdList[0] == "quit"){
+    process.exit();
   }else{
     mConsole.print("command not found");
   }

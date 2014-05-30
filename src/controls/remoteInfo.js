@@ -17,6 +17,7 @@ function response(context){
 	content:info,
 	command:"GET_REMOTE_INFO",
 	path:pathUtils.push(context.message.path,IDUtils.getID(context)),
+	callBack:context.message.callBack,
       }
     }else{
       /**
@@ -34,7 +35,7 @@ function success(context){
   mConsole.print("GET_REMOTE_INFO:SUCCESS\n"+JSON.stringify(context.message.content));
 }
 
-function request(context,ID,queryID){
+function request(context,ID,queryID,callBack){
   var req = {
     type:"REQUEST",
     status:"OK",
@@ -49,7 +50,10 @@ function request(context,ID,queryID){
   
   var clientInfo = clientInfoM.find(context,ID);
   if(clientInfo){
-    context.client.sendMessage(req,clientInfo);
+    mConsole.print(JSON.stringify(clientInfo));
+    context.client.sendMessage(req,clientInfo,callBack);
+  }else{
+    mConsole.print("GET_REMOTE_INFO:INVAILD_QUERY_TARGET");
   }
 }
 

@@ -8,6 +8,8 @@ var dataBase = {};
 dataBaseCtrl.loadDB(function(mDataBase){
   dataBase = mDataBase;
   dataBase.clientList = [];
+  dataBase.callBackList = [];
+  
   var context = {
     dataBase:dataBase,
     

@@ -6,6 +6,7 @@ var IDUtils = require("../utils/IDUtils.js");
 var mConsole = require("../utils/mConsole.js");
 var handShake = require("./handShake.js");
 var dgram = require("dgram");
+var callBackM = require("../models/callBack.js");
 
 
 function startApp(initContext,port,callBack){
@@ -18,6 +19,14 @@ function startApp(initContext,port,callBack){
       mConsole.print("Message Received:"+ message);
       //message processed by middleware
       var context = middleware(message,rinfo,client,initContext.dataBase);
+      //check callBack
+      if(message.callBack){
+	var cb = callBackM.find(message.callBack);
+	cb(context);
+	//remove callBack
+	callBackM.del(message.callBack);
+	return;
+      }
       route.net(context);
   })
 
@@ -27,15 +36,24 @@ function startApp(initContext,port,callBack){
       callBack();
   })
   
-  client.sendMessage = function(cmd,clientInfo){
+  client.sendMessage = function(cmd,clientInfo,mCB){
       var address = clientInfo.info.address;
       var port = clientInfo.info.port;
+      if(mCB){
+	mConsole.print("ADD CALLBACK");
+	var context = {
+	  dataBase:initContext.dataBase,
+	};
+	var callBackID = callBackM.add(context,mCB);
+	cmd.callBack = callBackID;
+      }
       var message = new Buffer(JSON.stringify(cmd));
       client.send(message,0,message.length,port,address,function(err,bytes){
           if(err){
               console.log(err);
           }
       });
+      
   }
   
   client.bind(port);
