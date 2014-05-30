@@ -1,4 +1,3 @@
-var route = require("./controls/route.js");
 
 function print(res){
   process.stdout.write(res+'\n> ');

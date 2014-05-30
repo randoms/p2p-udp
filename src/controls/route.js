@@ -23,6 +23,7 @@ var handShake = require("./handShake.js");
 var remoteInfo = require("./remoteInfo.js");
 var IDUtils = require("../utils/IDUtils.js");
 var pass = require("./passMessage.js");
+var setPort = require("./setPort.js");
 
 function route(context){
   var message = context.message;
@@ -49,4 +50,19 @@ function route(context){
   }
 }
 
-module.exports = route;
+function routeCmd(context,cmd){
+  var cmdList = cmd.split(' ');
+  if(cmdList[0] == "port"){
+    setPort(context,parseInt(cmdList[1]));
+  }
+  else if(cmdList[0] == "handShake"){
+    handShake.cmd(context,cmd);
+  }else if(cmdList[0] == "remoteInfo"){
+    remoteInfo.cmd(context,cmd);
+  }else{
+    mConsole.print("command not found");
+  }
+}
+
+module.exports.net = route;
+module.exports.cmd = routeCmd;

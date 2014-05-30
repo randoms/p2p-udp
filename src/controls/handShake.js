@@ -52,8 +52,18 @@ function request(context,ip,port){
     }
   }
   context.client.sendMessage(req,clientInfo);
+  mConsole.print("HAND_SHAKE:SEND");
 }
+
+function command(context,cmd){
+  var cmdList = cmd.split(' ');
+  var ip = cmdList[1];
+  var port = parseInt(cmdList[2]);
+  handShake.request(context,ip,port);
+}
+
 
 module.exports.response = response;
 module.exports.success = success;
 module.exports.request = request;
+module.exports.cmd = command;
