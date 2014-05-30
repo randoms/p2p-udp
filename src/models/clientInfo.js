@@ -15,6 +15,14 @@ function del(context,ID){
 }
 
 function add(context,info){
+  // if ID already in clientList update info
+  var mInfo = find(context,info.ID);
+  if(!mInfo){
+    context.dataBase.clientList.push(info);
+  }else{
+    mInfo.ID = info.ID;
+    mInfo.info = info.info;
+  }
   
 }
 

@@ -22,7 +22,7 @@ function response(context){
       /**
        * @todo send query request to other servers
        */
-      mConsole.print("not found");
+      mConsole.print("GET_REMOTE_INFO:NOT_FOUND");
       return;
     }
     var clientInfo = clientInfoM.find(context,context.message.fromID);
@@ -31,7 +31,7 @@ function response(context){
 
 
 function success(context){
-  
+  mConsole.print("GET_REMOTE_INFO:SUCCESS\n"+JSON.stringify(context.message.content));
 }
 
 function request(context,ID,queryID){

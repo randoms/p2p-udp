@@ -1,6 +1,7 @@
 var IDUtils = require("../utils/IDUtils.js");
 var pathUtils = require("../utils/spreadPath.js");
 var mConsole = require("../utils/mConsole.js");
+var clientInfoM = require("../models/clientInfo.js");
 
 function response(context){
   // add remote client to client list
@@ -8,7 +9,7 @@ function response(context){
     ID:context.remoteInfo.ID,
     info:context.remoteInfo.info,
   }
-  context.dataBase.clientList.push(clientInfo);
+  clientInfoM.add(context,clientInfo);
   var res = {
     type:"RESPONSE",
     status:"OK",
@@ -28,7 +29,8 @@ function success(context){
     ID:context.remoteInfo.ID,
     info:context.remoteInfo.info,
   }
-  context.dataBase.clientList.push(clientInfo);
+  
+  clientInfoM.add(context,clientInfo);
   mConsole.print("HAND_SHAKE:SUCCCESS");
 }
 
@@ -59,7 +61,7 @@ function command(context,cmd){
   var cmdList = cmd.split(' ');
   var ip = cmdList[1];
   var port = parseInt(cmdList[2]);
-  handShake.request(context,ip,port);
+  request(context,ip,port);
 }
 
 
