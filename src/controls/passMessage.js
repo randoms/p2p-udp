@@ -1,4 +1,5 @@
 var mConsole = require("../utils/mConsole.js");
+var clientInfoM = require("../models/clientInfo.js");
 
 /**
  * @function
@@ -7,15 +8,22 @@ var mConsole = require("../utils/mConsole.js");
 var IDUtils = require("../utils/IDUtils.js");
 
 function pass(context){
+  mConsole.print("PASS MESSAGE");
   var pathList = JSON.parse(context.message.path);
   // find my position
   var count = pathList.length;
   var targetId = "";
   for(i=0;i<count;i++){
-    if(pathList[i] == IDUtils.getID(context) && i != 0){
-      targetId = pathList[i-1];
+    if(pathList[i] == IDUtils.getID(context)){
+      if(context.message.type == "REQUEST"){
+	targetId = pathList[i+1];
+      }
+      if(context.message.type == "RESPONSE"){
+	targetId = pathList[i-1];
+      }
     }
   }
+  
   /**
    * @todo find shortcut
    */
@@ -25,14 +33,8 @@ function pass(context){
     return;
   }
   // find target info in local dataBase
-  var count =context.dataBase.clientList.length;
-  var info = null;
-  for(i=0;i<count;i++){
-    if(context.dataBase.clientList[i]['id'] == IDUtils.getID(context)){
-      info = context.dataBase.clientList[i];
-    }
-  }
-  if(!info){
+  var info = clientInfoM.find(context,targetId);
+  if(info){
     // record found
     context.client.sendMessage(context.message,info);
   }else{

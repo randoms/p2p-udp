@@ -6,7 +6,22 @@ var mConsole = require("../utils/mConsole.js");
  * received remote request to do something
  */
 function response(context){
+  var res = {
+    type:"RESPONSE",
+    status:"OK",
+    fromID:IDUtils.getID(context),
+    toID:context.message.fromID,
+    command:"REMOTE",
+    content:"",
+    path:context.message.path,
+    callBack:context.message.callBack,
+  }
+  var pathList = JSON.parse(context.message.path);
+  var clientInfo = clientInfoM.find(context,pathList[pathList.length-2]);
+  context.client.sendMessage(res,clientInfo);
   
+  // exec remote command
+  context.route.cmd(context,context.message.content);
 }
 
 /**
@@ -22,7 +37,7 @@ function request(context,path,cmd,callBack){
     toID:pathList[pathList.length-1],//last ID is the target ID
     command:"REMOTE",
     content:cmd,
-    path:JSON.stringify([pathList[0]]),
+    path:JSON.stringify(pathList),
     callBack:callBack,
   }
   var clientInfo = clientInfoM.find(context,pathList[1]);
@@ -33,11 +48,13 @@ function request(context,path,cmd,callBack){
 function command(context,cmd){
   var cmdList = cmd.split(' ');
   cmdList.splice(0,1); //remote REMOTE cmd
+  cmd = cmdList.join(' ');
   if(!context.dataBase.temp.path){
-    mConsole.print("REMOTE:PLEASE RUN tunnel FIRST");
-    return;
+    return mConsole.print("REMOTE:PLEASE RUN tunnel FIRST");
   }
-  request(context,context.dataBase.temp.path,cmdList);
+  request(context,context.dataBase.temp.path,cmd,function(context){
+    mConsole.print("REMOTE:\n"+context.message.content);
+  });
 }
 
 

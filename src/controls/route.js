@@ -42,6 +42,9 @@ function route(context){
     if(message.command =="GET_REMOTE_INFO"){
       remoteInfo.response(context);
     }
+    if(message.command == "REMOTE"){
+      remote.response(context);
+    }
   }
   if(message.type == "RESPONSE"){
     if(message.command == "HAND_SHAKE"){
@@ -56,23 +59,23 @@ function route(context){
 function routeCmd(context,cmd){
   var cmdList = cmd.split(' ');
   if(cmdList[0] == "port"){
-    setPort(context,parseInt(cmdList[1]));
+    return setPort(context,parseInt(cmdList[1]));
   }
   else if(cmdList[0] == "handShake"){
-    handShake.cmd(context,cmd);
+    return handShake.cmd(context,cmd);
   }else if(cmdList[0] == "remoteInfo"){
-    remoteInfo.cmd(context,cmd);
+    return remoteInfo.cmd(context,cmd);
   }else if(cmdList[0] == "db"){
     //list dataBase
-    mConsole.print(JSON.stringify(context.dataBase));
+    return mConsole.print(JSON.stringify(context.dataBase));
   }else if(cmdList[0] == "tunnel"){
-    tunnel.cmd(context,cmd);
+    return tunnel.cmd(context,cmd);
   }else if(cmdList[0] == "quit"){
-    process.exit();
+    return process.exit();
   }else if(cmdList[0] == "remote"){
-    remote.cmd(context,cmd);
+    return remote.cmd(context,cmd);
   }else{
-    mConsole.print("command not found");
+    return mConsole.print("command not found");
   }
 }
 
