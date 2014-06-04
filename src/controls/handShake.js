@@ -18,6 +18,7 @@ function response(context){
     content:"",
     command:"HAND_SHAKE",
     path:pathUtils.push(context.message.path,IDUtils.getID(context)),
+    callBack:context.message.callBack,
   }
   mConsole.print(JSON.stringify(clientInfo));
   context.client.sendMessage(res,clientInfo);
@@ -34,7 +35,7 @@ function success(context){
   mConsole.print("HAND_SHAKE:SUCCCESS");
 }
 
-function request(context,ip,port){
+function request(context,ip,port,callBack){
   var req = {
     type:"REQUEST",
     status:"OK",
@@ -53,8 +54,8 @@ function request(context,ip,port){
       size:0,
     }
   }
-  context.client.sendMessage(req,clientInfo);
-  mConsole.print("HAND_SHAKE:SEND");
+  context.client.sendMessage(req,clientInfo,callBack);
+  return mConsole.print("HAND_SHAKE:SEND");
 }
 
 function command(context,cmd){

@@ -9,6 +9,7 @@ var mConsole = require("../utils/mConsole.js");
 var remoteInfo = require("./remoteInfo.js");
 var pathUtils = require("../utils/spreadPath.js");
 var IDUtils = require("../utils/IDUtils.js");
+var remote = require("./remoteCmd.js");
 
 function request(){
   
@@ -40,16 +41,31 @@ function command(context,cmd){
       }
       if(context.message.status == "OK"){
 	mConsole.print("TUNNEL:VAILDPATH_FOUND");
-	// target info found 
-	// ask remote to send handShake package
 	var vaildPath = pathUtils.push(context.message.path,ID);
-	context.dataBase.temp.path = vaildPath;// save vaildPath to dataBase
+	// target info found 
+	var targetInfo = context.message.content;
+	// get local ip and port
+	remoteInfo.request(context,JSON.parse(vaildPath)[1],IDUtils.getID(context),function(resContext){
+	  var localInfo = resContext.message.content;
+	  // ask remote to send handShake package
+	  context.dataBase.temp.path = vaildPath;// save vaildPath to dataBase
+	  var cmd = "handShake "+localInfo.info.address+" "+localInfo.info.port;
+	  remote.request(context,vaildPath,cmd,function(context){
+	    mConsole.print("REMOTE HANDSHAKE SEND!!!");
+	    // send handShake to target
+	    handShake.request(context,targetInfo.info.address,targetInfo.info.port,function(shakeContext){
+	      mConsole.print("CALLED");
+	      if(shakeContext.message.status == "OK"){
+		mConsole.print("TUNNEL:ESTABLISHED");
+	      }else{
+		mConsole.print("TUNNEL:FAILED_TO_CONNECT");
+	      }
+	    })
+	  })
+	})
       }
     });
   }
-  
-  //wait response
-  //send handShake package
 }
 
 

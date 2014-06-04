@@ -6,22 +6,21 @@ var mConsole = require("../utils/mConsole.js");
  * received remote request to do something
  */
 function response(context){
+  // exec remote command
+  var consoleRes = context.route.cmd(context,context.message.content);
   var res = {
     type:"RESPONSE",
     status:"OK",
     fromID:IDUtils.getID(context),
     toID:context.message.fromID,
     command:"REMOTE",
-    content:"",
+    content:consoleRes,
     path:context.message.path,
     callBack:context.message.callBack,
   }
   var pathList = JSON.parse(context.message.path);
   var clientInfo = clientInfoM.find(context,pathList[pathList.length-2]);
   context.client.sendMessage(res,clientInfo);
-  
-  // exec remote command
-  context.route.cmd(context,context.message.content);
 }
 
 /**

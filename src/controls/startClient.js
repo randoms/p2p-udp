@@ -22,7 +22,8 @@ function startApp(initContext,port,callBack){
       // IOC
       context.route = route;
       //check callBack
-      if(context.message.callBack && context.message.type == "RESPONSE"){
+      if(context.message.callBack && context.message.type == "RESPONSE" 
+	&& context.message.toID == IDUtils.getID(context)){
 	var cb = callBackM.find(context,context.message.callBack);
 	cb(context);
 	//remove callBack
