@@ -31,6 +31,7 @@ function startApp(initContext,port,callBack){
 	return;
       }
       route.net(context);
+      context = null;
   })
 
   client.on("listening",function(){
