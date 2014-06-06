@@ -10,6 +10,7 @@ function raw_input(hint,callback,defaultVal,type){
   process.stdout.write("\n");
   process.stdout.write(hint);
   
+  process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on("data",function(val){
     val = val.substring(0,val.length-1);// remove the enter character

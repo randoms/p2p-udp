@@ -54,7 +54,6 @@ function command(context,cmd){
 	    mConsole.print("REMOTE HANDSHAKE SEND!!!");
 	    // send handShake to target
 	    handShake.request(context,targetInfo.info.address,targetInfo.info.port,function(shakeContext){
-	      mConsole.print("CALLED");
 	      if(shakeContext.message.status == "OK"){
 		mConsole.print("TUNNEL:ESTABLISHED");
 	      }else{
