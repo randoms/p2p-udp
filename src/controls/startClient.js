@@ -16,7 +16,7 @@ function startApp(initContext,port,callBack){
   }
   var client = dgram.createSocket("udp4")
   client.on("message",function(message,rinfo){
-      mConsole.print("Message Received:"+ message);
+      //mConsole.print("Message Received:"+ message);
       //message processed by middleware
       var context = middleware(message,rinfo,client,initContext.dataBase);
       // IOC
@@ -31,7 +31,6 @@ function startApp(initContext,port,callBack){
 	return;
       }
       route.net(context);
-      context = null;
   })
 
   client.on("listening",function(){

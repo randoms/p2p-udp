@@ -1,6 +1,6 @@
 var version = "1.0.0";
-var serverIP = "42.96.195.88";
-var serverPort = "9999";
+var serverIP = "127.0.0.1";
+var serverPort = "8888";
 
 module.exports.VERSION = version;
 module.exports.SERVER_IP = serverIP;
