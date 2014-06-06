@@ -36,12 +36,18 @@ function startApp(initContext,port,callBack){
   client.on("listening",function(){
       var address = client.address();
       mConsole.print("Server listening:"+address.address+":"+address.port);
+      initContext.dataBase.callBackList = [];
       var context = {
 	  dataBase:initContext.dataBase,
 	  client:client,
       };
+      // connect to server
+      mConsole.print("INIT:CONNECT_TO_SERVER");
+      handShake.request(context,serverIp,serverPort,function(mcontext){
+	mConsole.print("INIT:CONNECTED");
+      });
       keepAlive(context);
-      callBack();
+      callBack(context);
   })
   
   client.sendMessage = function(cmd,clientInfo,mCB){
@@ -56,7 +62,7 @@ function startApp(initContext,port,callBack){
       }
       var message = new Buffer(JSON.stringify(cmd));
       client.send(message,0,message.length,port,address,function(err,bytes){
-          if(err){
+	  if(err){
               console.log(err);
           }
       });
@@ -64,9 +70,6 @@ function startApp(initContext,port,callBack){
   }
   
   client.bind(port);
-  // connect to server
-  initContext.client = client;
-  handShake.request(initContext,serverIp,serverPort)
 }
 
 

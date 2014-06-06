@@ -9,6 +9,7 @@ function response(context){
     ID:context.remoteInfo.ID,
     info:context.remoteInfo.info,
   }
+  
   clientInfoM.add(context,clientInfo);
   var res = {
     type:"RESPONSE",
