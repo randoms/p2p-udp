@@ -20,7 +20,6 @@ function response(context){
     path:pathUtils.push(context.message.path,IDUtils.getID(context)),
     callBack:context.message.callBack,
   }
-  mConsole.print(JSON.stringify(clientInfo));
   context.client.sendMessage(res,clientInfo);
 }
 
@@ -32,7 +31,6 @@ function success(context){
   }
   
   clientInfoM.add(context,clientInfo);
-  mConsole.print("HAND_SHAKE:SUCCCESS");
 }
 
 function request(context,ip,port,callBack){
@@ -55,14 +53,16 @@ function request(context,ip,port,callBack){
     }
   }
   context.client.sendMessage(req,clientInfo,callBack);
-  return mConsole.print("HAND_SHAKE:SEND");
 }
 
 function command(context,cmd){
   var cmdList = cmd.split(' ');
   var ip = cmdList[1];
   var port = parseInt(cmdList[2]);
-  request(context,ip,port);
+  mConsole.print("HAND_SHAKE:SEND")
+  request(context,ip,port,function(context){
+    mConsole.print("HAND_SHAKE:SUCCESS");
+  });
 }
 
 

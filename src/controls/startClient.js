@@ -7,7 +7,7 @@ var mConsole = require("../utils/mConsole.js");
 var handShake = require("./handShake.js");
 var dgram = require("dgram");
 var callBackM = require("../models/callBack.js");
-
+var keepAlive = require("./keepAlive.js");
 
 function startApp(initContext,port,callBack){
   // init
@@ -36,6 +36,11 @@ function startApp(initContext,port,callBack){
   client.on("listening",function(){
       var address = client.address();
       mConsole.print("Server listening:"+address.address+":"+address.port);
+      var context = {
+	  dataBase:initContext.dataBase,
+	  client:client,
+      };
+      keepAlive(context);
       callBack();
   })
   
