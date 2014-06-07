@@ -10,29 +10,28 @@ function response(context){
     var info = clientInfoM.find(context,remoteID);
     if(info){
       var res = {
-	type:"RESPONSE",
-	status:"OK",
-	fromID:IDUtils.getID(context),
-	toID:context.message.fromID,
-	content:info,
-	command:"GET_REMOTE_INFO",
-	path:pathUtils.push(context.message.path,IDUtils.getID(context)),
-	callBack:context.message.callBack,
+        type:"RESPONSE",
+        status:"OK",
+        fromID:IDUtils.getID(context),
+        toID:context.message.fromID,
+        content:info,
+        command:"GET_REMOTE_INFO",
+        path:pathUtils.push(context.message.path,IDUtils.getID(context)),
+        callBack:context.message.callBack,
       }
     }else{
       /**
        * @todo send query request to other servers
        */
-      mConsole.print("GET_REMOTE_INFO:NOT_FOUND");
       var res = {
-	type:"RESPONSE",
-	status:"NOT_FOUND",
-	fromID:IDUtils.getID(context),
-	toID:context.message.fromID,
-	content:"",
-	command:"GET_REMOTE_INFO",
-	path:pathUtils.push(context.message.path,IDUtils.getID(context)),
-	callBack:context.message.callBack,
+        type:"RESPONSE",
+        status:"NOT_FOUND",
+        fromID:IDUtils.getID(context),
+        toID:context.message.fromID,
+        content:"",
+        command:"GET_REMOTE_INFO",
+        path:pathUtils.push(context.message.path,IDUtils.getID(context)),
+        callBack:context.message.callBack,
       }
     }
     var clientInfo = clientInfoM.find(context,context.message.fromID);
@@ -41,7 +40,7 @@ function response(context){
 
 
 function success(context){
-  mConsole.print("GET_REMOTE_INFO:SUCCESS\n"+JSON.stringify(context.message.content));
+  
 }
 
 function request(context,ID,queryID,callBack){

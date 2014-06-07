@@ -1,3 +1,5 @@
+var clientListM = require("../models/clientInfo.js");
+
 
 /**
  * @function: bind all necessary data to a context
@@ -16,9 +18,9 @@ function middleware(message,rinfo,client,dataBase){
       toId:"",
       command:"ERROR",
       content:{
-	type:"message formate error",
-	rinfo:rinfo,
-	message:message,
+      type:"message formate error",
+      rinfo:rinfo,
+      message:message,
       }
     }
     console.log(JSON.stringify(data));
@@ -32,6 +34,13 @@ function middleware(message,rinfo,client,dataBase){
     client:client,
     dataBase:dataBase,
   }
+  
+  // save sender to database
+  var clientInfo = {
+    ID:context.message.senderID,
+    info:rinfo,
+  }
+  clientListM.add(context,clientInfo);
   return context;
 }
 

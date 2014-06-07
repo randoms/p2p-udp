@@ -23,12 +23,12 @@ function startApp(initContext,port,callBack){
       context.route = route;
       //check callBack
       if(context.message.callBack && context.message.type == "RESPONSE" 
-	&& context.message.toID == IDUtils.getID(context)){
-	var cb = callBackM.find(context,context.message.callBack);
-	cb(context);
-	//remove callBack
-	callBackM.del(context,context.message.callBack);
-	return;
+        && context.message.toID == IDUtils.getID(context)){
+        var cb = callBackM.find(context,context.message.callBack);
+        cb(context);
+        //remove callBack
+        callBackM.del(context,context.message.callBack);
+        return;
       }
       route.net(context);
   })
@@ -38,13 +38,17 @@ function startApp(initContext,port,callBack){
       mConsole.print("Server listening:"+address.address+":"+address.port);
       initContext.dataBase.callBackList = [];
       var context = {
-	  dataBase:initContext.dataBase,
-	  client:client,
+        dataBase:initContext.dataBase,
+        client:client,
       };
       // connect to server
-      mConsole.print("INIT:CONNECT_TO_SERVER");
+      mConsole.print("INIT:CONNECTING");
       handShake.request(context,serverIp,serverPort,function(mcontext){
-	mConsole.print("INIT:CONNECTED");
+        if(mcontext.message.status == "OK"){
+          mConsole.print("INIT:CONNECTED");
+        }else{
+          mConsole.print("INIT:CONNECT_TIMEOUT");
+        }
       });
       keepAlive(context);
       callBack(context);
@@ -53,22 +57,34 @@ function startApp(initContext,port,callBack){
   client.sendMessage = function(cmd,clientInfo,mCB){
       var address = clientInfo.info.address;
       var port = clientInfo.info.port;
+      var context = {
+        dataBase:initContext.dataBase,
+      };
+      cmd.senderID = IDUtils.getID(context);
       if(mCB){
-	var context = {
-	  dataBase:initContext.dataBase,
-	};
-	var callBackID = callBackM.add(context,mCB);
-	cmd.callBack = callBackID;
+        var callBackID = callBackM.add(context,mCB);
+        cmd.callBack = callBackID;
+        //add timeout
+        setTimeout(function(){
+          var callBackID = cmd.callBack;
+          var timeoutCallBack = callBackM.find(context,callBackID);
+          if(timeoutCallBack){
+            //callBack not called yet
+            callBackM.del(context,callBackID);
+            context.message = {
+              status:"TIMEOUT",
+            }
+            timeoutCallBack(context)
+          }
+        },5000); // timeout time 5s
       }
       var message = new Buffer(JSON.stringify(cmd));
       client.send(message,0,message.length,port,address,function(err,bytes){
-	  if(err){
-              console.log(err);
-          }
+        if(err){
+                  console.log(err);
+        }
       });
-      
   }
-  
   client.bind(port);
 }
 

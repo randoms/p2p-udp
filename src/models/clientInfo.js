@@ -1,4 +1,5 @@
 var IDUtils = require("../utils/IDUtils.js");
+var mConsole = require("../utils/mConsole.js");
 
 function find(context,ID){
   var clientList = context.dataBase.clientList;
@@ -25,6 +26,9 @@ function add(context,info){
   if(!mInfo){
     context.dataBase.clientList.push(info);
   }else{
+    if(info.ID == null || info.info == null){
+      mConsole.log("ERROR:INVAILD_CLIENTINFO");
+    }
     mInfo.ID = info.ID;
     mInfo.info = info.info;
   }
