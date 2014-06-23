@@ -61,7 +61,7 @@ function command(context,cmd){
         if(context.message.status == 'OK'){
             mConsole.print("HAND_SHAKE:SUCCESS");
         }else{
-            mConsole.print("HAND_SHAKE:SUCCESS:FAILED");
+            mConsole.print("HAND_SHAKE:FAILED");
         }
     });
 }
