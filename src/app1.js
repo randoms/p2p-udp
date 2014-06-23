@@ -6,17 +6,23 @@ var dataBase = {};
 
 //loadDB
 dataBaseCtrl.loadDB(function(mDataBase){
-  dataBase = mDataBase;
-  dataBase.clientList = [];
-  var context = {
-    dataBase:dataBase,
+    dataBase = mDataBase;
+    dataBase.clientList = [];
+    dataBase.callBackList = [];
+    dataBase.temp = [];
     
-  }
-  startApp(context,9999,function(){
-    //process console commad
-    raw_intput("> ",function(cmd){
-      route.cmd(context,cmd);
-    },"");
-  });
+    var context = {
+        dataBase:dataBase,
+        
+    }
+    startApp(context,9999,function(mContext){
+        //process console commad
+        raw_intput("> ",function(cmd){
+            route.cmd(mContext,cmd);
+        },"");
+    });
 })
+
+
+
 
